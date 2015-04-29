@@ -49,9 +49,11 @@ add_executable(test_qregexp TestQRegExp.cpp)
 target_link_libraries(test_qregexp
 		${QT_LIBRARIES})
 
+if(NOT Qt5_FOUND)
 add_executable(test_qtscreenshot TestQtScreenshot.cpp)
 target_link_libraries(test_qtscreenshot
 		${QT_LIBRARIES})
+endif(NOT Qt5_FOUND)
 
 if(ENABLE_X11)
     # Find X11

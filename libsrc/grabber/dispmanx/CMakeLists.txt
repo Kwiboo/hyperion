@@ -21,12 +21,9 @@ SET(DispmanxGrabberSOURCES
 		${CURRENT_SOURCE_DIR}/DispmanxFrameGrabber.cpp
 )
 
-QT4_WRAP_CPP(DispmanxGrabberHEADERS_MOC ${DispmanxGrabberQT_HEADERS})
-
 add_library(dispmanx-grabber
 		${DispmanxGrabberHEADERS}
 		${DispmanxGrabberQT_HEADERS}
-		${DispmanxGrabberHEADERS_MOC}
 		${DispmanxGrabberSOURCES}
 )
 

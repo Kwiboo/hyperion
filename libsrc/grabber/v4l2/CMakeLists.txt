@@ -16,13 +16,10 @@ SET(V4L2_SOURCES
 		${CURRENT_SOURCE_DIR}/V4L2Wrapper.cpp
 )
 
-QT4_WRAP_CPP(V4L2_HEADERS_MOC ${V4L2_QT_HEADERS})
-
 add_library(v4l2-grabber
 		${V4L2_HEADERS}
 		${V4L2_SOURCES}
 		${V4L2_QT_HEADERS}
-		${V4L2_HEADERS_MOC}
 )
 
 target_link_libraries(v4l2-grabber

@@ -17,13 +17,10 @@ set(BoblightServer_SOURCES
 		${CURRENT_SOURCE_DIR}/BoblightClientConnection.cpp
 )
 
-qt4_wrap_cpp(BoblightServer_HEADERS_MOC ${BoblightServer_QT_HEADERS})
-
 add_library(boblightserver
 		${BoblightServer_HEADERS}
 		${BoblightServer_QT_HEADERS}
 		${BoblightServer_SOURCES}
-		${BoblightServer_HEADERS_MOC}
 )
 
 target_link_libraries(boblightserver

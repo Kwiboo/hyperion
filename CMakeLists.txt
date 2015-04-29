@@ -2,7 +2,7 @@
 project(Hyperion)
 
 # define the minimum cmake version (as required by cmake)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 
 #set(CMAKE_TOOLCHAIN_FILE /opt/raspberrypi/Toolchain-RaspberryPi.cmake)
 
@@ -58,8 +58,6 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 # Add project specific cmake modules (find, etc)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-# Add specific cmake modules to find qt4 (default version finds first available QT which might not be qt4)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/qt4)
 
 # Define the global output path of binaries
 SET(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR}/lib)
@@ -82,8 +80,24 @@ set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++11 -Wall")
 
-# Configure the use of QT4
-find_package(Qt4 COMPONENTS QtCore QtGui QtNetwork REQUIRED QUIET)
+# Double colon in target name means ALIAS or IMPORTED target
+cmake_policy(SET CMP0028 NEW)
+
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_AUTORCC ON)
+SET(CMAKE_AUTORCC_OPTIONS "-no-compress")
+
+# Configure the use of Qt
+find_package(Qt5 COMPONENTS Core)
+if(Qt5_FOUND)
+	find_package(Qt5 COMPONENTS Core Gui Network REQUIRED)
+	set(QT_LIBRARIES Qt5::Core Qt5::Gui Qt5::Network)
+else()
+	find_package(Qt4 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
+	set(QT_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
+endif()
 
 #add libusb and pthreads
 find_package(libusb-1.0 REQUIRED)
@@ -93,8 +107,6 @@ if (ENABLE_TINKERFORGE)
 	#find_package(libtinkerforge-1.0 REQUIRED)
 endif (ENABLE_TINKERFORGE)
 
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
 # TODO[TvdZ]: This linking directory should only be added if we are cross compiling
 if(NOT APPLE)
 	link_directories(${CMAKE_FIND_ROOT_PATH}/lib/arm-linux-gnueabihf)

@@ -21,17 +21,11 @@ set(JsonServer_RESOURCES
 		${CURRENT_SOURCE_DIR}/JsonSchemas.qrc
 )
 
-qt4_wrap_cpp(JsonServer_HEADERS_MOC ${JsonServer_QT_HEADERS})
-
-qt4_add_resources(JsonServer_RESOURCES_RCC ${JsonServer_RESOURCES} OPTIONS "-no-compress")
-
 add_library(jsonserver
 		${JsonServer_HEADERS}
 		${JsonServer_QT_HEADERS}
 		${JsonServer_SOURCES}
 		${JsonServer_RESOURCES}
-		${JsonServer_HEADERS_MOC}
-		${JsonServer_RESOURCES_RCC}
 )
 
 target_link_libraries(jsonserver

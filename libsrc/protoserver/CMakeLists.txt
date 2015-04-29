@@ -34,13 +34,10 @@ protobuf_generate_cpp(ProtoServer_PROTO_SRCS ProtoServer_PROTO_HDRS
 	${ProtoServer_PROTOS}
 )
 
-qt4_wrap_cpp(ProtoServer_HEADERS_MOC ${ProtoServer_QT_HEADERS})
-
 add_library(protoserver
 	${ProtoServer_HEADERS}
 	${ProtoServer_QT_HEADERS}
 	${ProtoServer_SOURCES}
-	${ProtoServer_HEADERS_MOC}
 	${ProtoServer_PROTOS}
 	${ProtoServer_PROTO_SRCS}
 	${ProtoServer_PROTO_HDRS}

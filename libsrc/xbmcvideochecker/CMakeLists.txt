@@ -15,12 +15,9 @@ SET(XBMCVideoChecker_SOURCES
 		${CURRENT_SOURCE_DIR}/XBMCVideoChecker.cpp
 )
 
-QT4_WRAP_CPP(XBMCVideoChecker_HEADERS_MOC ${XBMCVideoChecker_QT_HEADERS})
-
 add_library(xbmcvideochecker
 		${XBMCVideoChecker_HEADERS}
 		${XBMCVideoChecker_QT_HEADERS}
-		${XBMCVideoChecker_HEADERS_MOC}
 		${XBMCVideoChecker_SOURCES}
 )
 

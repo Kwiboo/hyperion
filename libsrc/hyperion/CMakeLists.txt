@@ -36,16 +36,11 @@ set(Hyperion_RESOURCES
 		${CURRENT_SOURCE_DIR}/resource.qrc
 )
 
-QT4_WRAP_CPP(Hyperion_HEADERS_MOC ${Hyperion_QT_HEADERS})
-
-QT4_ADD_RESOURCES(Hyperion_RESOURCES_RCC ${Hyperion_RESOURCES} OPTIONS "-no-compress")
-
 add_library(hyperion
 		${Hyperion_HEADERS}
 		${Hyperion_QT_HEADERS}
-		${Hyperion_HEADERS_MOC}
 		${Hyperion_SOURCES}
-		${Hyperion_RESOURCES_RCC}
+		${Hyperion_RESOURCES}
 )
 
 target_link_libraries(hyperion

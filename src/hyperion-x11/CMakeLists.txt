@@ -1,18 +1,14 @@
 # Configure minimum CMAKE version
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.11)
 
 # Set the project name
 project(hyperion-x11)
-
-# find Qt4
-find_package(Qt4 REQUIRED QtCore QtGui QtNetwork)
 
 # Find X11
 find_package(X11 REQUIRED)
 
 include_directories(
 	${CMAKE_CURRENT_BINARY_DIR}/../../libsrc/protoserver
-	${QT_INCLUDES}
 	${X11_INCLUDES}
 	${PROTOBUF_INCLUDE_DIRS}
 )
@@ -28,12 +24,10 @@ set(Hyperion_X11_SOURCES
 	X11Wrapper.cpp
 )
 
-QT4_WRAP_CPP(Hyperion_X11_HEADERS_MOC ${Hyperion_X11_QT_HEADERS})
-
 add_executable(hyperion-x11
 	${Hyperion_X11_HEADERS}
+	${Hyperion_X11_QT_HEADERS}
 	${Hyperion_X11_SOURCES}
-	${Hyperion_X11_HEADERS_MOC}
 )
 
 target_link_libraries(hyperion-x11
@@ -44,9 +38,6 @@ target_link_libraries(hyperion-x11
 	x11-grabber
 	${X11_LIBRARIES}
 	pthread
+	${QT_LIBRARIES}
 )
 
-qt4_use_modules(hyperion-x11
-	Core
-	Gui
-	Network)

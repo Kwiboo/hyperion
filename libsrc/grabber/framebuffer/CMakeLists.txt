@@ -21,12 +21,9 @@ SET(FramebufferGrabberSOURCES
 		${CURRENT_SOURCE_DIR}/FramebufferFrameGrabber.cpp
 )
 
-QT4_WRAP_CPP(FramebufferGrabberHEADERS_MOC ${FramebufferGrabberQT_HEADERS})
-
 add_library(framebuffer-grabber
 		${FramebufferGrabberHEADERS}
 		${FramebufferGrabberQT_HEADERS}
-		${FramebufferGrabberHEADERS_MOC}
 		${FramebufferGrabberSOURCES}
 )
 

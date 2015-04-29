@@ -97,12 +97,9 @@ if(ENABLE_TINKERFORGE)
 endif(ENABLE_TINKERFORGE)
 
 
-QT4_WRAP_CPP(Leddevice_HEADERS_MOC ${Leddevice_QT_HEADERS})
-
 add_library(leddevice
 		${Leddevice_HEADERS}
 		${Leddevice_QT_HEADERS}
-		${Leddevice_HEADERS_MOC}
 		${Leddevice_SOURCES}
 )
 

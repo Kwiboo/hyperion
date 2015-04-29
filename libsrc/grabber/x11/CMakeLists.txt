@@ -6,7 +6,6 @@ SET(CURRENT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/libsrc/grabber/x11)
 find_package(X11 REQUIRED)
 
 include_directories(
-	${QT_INCLUDES}
 	${X11_INCLUDES}
 )
 
@@ -22,13 +21,10 @@ SET(X11_SOURCES
 		${CURRENT_SOURCE_DIR}/X11Grabber.cpp
 )
 
-QT4_WRAP_CPP(X11_HEADERS_MOC ${X11_QT_HEADERS})
-
 add_library(x11-grabber
 		${X11_HEADERS}
 		${X11_SOURCES}
 		${X11_QT_HEADERS}
-		${X11_HEADERS_MOC}
 )
 
 target_link_libraries(x11-grabber

@@ -16,12 +16,9 @@ SET(OsxGrabberSOURCES
 		${CURRENT_SOURCE_DIR}/OsxFrameGrabber.cpp
 )
 
-QT4_WRAP_CPP(OsxGrabberHEADERS_MOC ${OsxGrabberQT_HEADERS})
-
 add_library(osx-grabber
 		${OsxGrabberHEADERS}
 		${OsxGrabberQT_HEADERS}
-		${OsxGrabberHEADERS_MOC}
 		${OsxGrabberSOURCES}
 )
 

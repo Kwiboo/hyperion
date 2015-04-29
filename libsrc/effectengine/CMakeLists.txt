@@ -27,15 +27,10 @@ SET(EffectEngineSOURCES
 
 set(EffectEngine_RESOURCES ${CURRENT_SOURCE_DIR}/EffectEngine.qrc)
 
-QT4_WRAP_CPP(EffectEngineHEADERS_MOC ${EffectEngineQT_HEADERS})
-
-qt4_add_resources(EffectEngine_RESOURCES_RCC ${EffectEngine_RESOURCES} OPTIONS "-no-compress")
-
 add_library(effectengine
 		${EffectEngineHEADERS}
 		${EffectEngineQT_HEADERS}
-		${EffectEngineHEADERS_MOC}
-		${EffectEngine_RESOURCES_RCC}
+		${EffectEngine_RESOURCES}
 		${EffectEngineSOURCES}
 )
 
