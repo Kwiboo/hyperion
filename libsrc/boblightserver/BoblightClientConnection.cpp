@@ -59,7 +59,7 @@ void BoblightClientConnection::readData()
 	while(bytes > 0)
 	{
 		// create message string (strip the newline)
-		QString message = QString::fromAscii(_receiveBuffer.data(), bytes-1);
+		QString message = QString::fromLatin1(_receiveBuffer.data(), bytes-1);
 
 		// remove message data from buffer
 		_receiveBuffer = _receiveBuffer.mid(bytes);
