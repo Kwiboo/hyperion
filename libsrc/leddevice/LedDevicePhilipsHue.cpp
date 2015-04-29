@@ -7,7 +7,8 @@
 // qt includes
 #include <QtCore/qmath.h>
 #include <QUrl>
-#include <QHttpRequestHeader>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QEventLoop>
 
 #include <set>
@@ -138,7 +139,7 @@ LedDevicePhilipsHue::LedDevicePhilipsHue(const std::string& output, const std::s
 		int transitiontime, std::vector<unsigned int> lightIds) :
 		host(output.c_str()), username(username.c_str()), switchOffOnBlack(switchOffOnBlack), transitiontime(
 				transitiontime), lightIds(lightIds) {
-	http = new QHttp(host);
+	http = new QNetworkAccessManager(this);
 	timer.setInterval(3000);
 	timer.setSingleShot(true);
 	connect(&timer, SIGNAL(timeout()), this, SLOT(restoreStates()));
@@ -210,33 +211,36 @@ int LedDevicePhilipsHue::switchOff() {
 }
 
 void LedDevicePhilipsHue::put(QString route, QString content) {
-	QString url = QString("/api/%1/%2").arg(username).arg(route);
-	QHttpRequestHeader header("PUT", url);
-	header.setValue("Host", host);
-	header.setValue("Accept-Encoding", "identity");
-	header.setValue("Connection", "keep-alive");
-	header.setValue("Content-Length", QString("%1").arg(content.size()));
+	QString url = QString("http://%1/api/%2/%3").arg(host).arg(username).arg(route);
+	QNetworkRequest request;
+	request.setUrl(QUrl(url));
+	request.setRawHeader("Host", host.toLatin1());
+	request.setRawHeader("Accept-Encoding", "identity");
+	request.setRawHeader("Connection", "keep-alive");
+	request.setRawHeader("Content-Length", QString("%1").arg(content.size()).toLatin1());
 	QEventLoop loop;
-	// Connect requestFinished signal to quit slot of the loop.
-	loop.connect(http, SIGNAL(requestFinished(int, bool)), SLOT(quit()));
+	// Connect finished signal to quit slot of the loop.
+	loop.connect(http, SIGNAL(finished(QNetworkReply *)), SLOT(quit()));
 	// Perfrom request
-	http->request(header, content.toAscii());
+	http->put(request, content.toLatin1());
 	// Go into the loop until the request is finished.
 	loop.exec();
 }
 
 QByteArray LedDevicePhilipsHue::get(QString route) {
-	QString url = QString("/api/%1/%2").arg(username).arg(route);
+	QString url = QString("http://%1/api/%2/%3").arg(host).arg(username).arg(route);
+	QNetworkRequest request;
+	request.setUrl(QUrl(url));
 	// Event loop to block until request finished.
 	QEventLoop loop;
-	// Connect requestFinished signal to quit slot of the loop.
-	loop.connect(http, SIGNAL(requestFinished(int, bool)), SLOT(quit()));
+	// Connect finished signal to quit slot of the loop.
+	loop.connect(http, SIGNAL(finished(QNetworkReply *)), SLOT(quit()));
 	// Perfrom request
-	http->get(url);
+	QNetworkReply *reply = http->get(request);
 	// Go into the loop until the request is finished.
 	loop.exec();
 	// Read all data of the response.
-	return http->readAll();
+	return reply->readAll();
 }
 
 QString LedDevicePhilipsHue::getStateRoute(unsigned int lightId) {
